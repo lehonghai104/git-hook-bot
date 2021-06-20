@@ -9,15 +9,16 @@ require('dotenv').config();
 
 const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true })
-const follow = {}
+const follow = {
+  '-544553014': ['all']
+}
 
 bot.onText(/\/follow (.*)/, (msg, match) => {
 
   const chatId = msg.chat.id + '';
-  follow[chatId] ||= [];
+  follow[chatId] = follow[chatId] || [];
 
-  if (!follow[chatId].includes(chatId)) follow[chatId].push(match[1]);
-  console.log(follow);
+  if (!follow[chatId].includes('all') && !follow[chatId].includes(chatId)) follow[chatId].push(match[1]);
   bot.sendMessage(chatId, `ok`);
 });
 
